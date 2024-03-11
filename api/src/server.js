@@ -1,11 +1,13 @@
 import express from "express";
 import routes from './routes.js';
+import cors from "cors";
 
 import './config/database.js';
 
 const app = express();
 
-app.set('view engine', 'ejs');
+app.use(cors());
+
 
 app.use(express.json());
 app.use(routes);
