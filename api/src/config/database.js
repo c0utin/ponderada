@@ -8,6 +8,7 @@ const sequelize = new Sequelize({
     password: '12345678', // Substitua pela sua senha do RDS
     database: '', // Substitua pelo nome do seu banco de dados no RDS
     port: 5432, // Porta padrão do PostgreSQL
+    ssl: { rejectUnauthorized: false },
 });
 
 Book.init(sequelize);
