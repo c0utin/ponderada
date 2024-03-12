@@ -15,4 +15,10 @@ const sequelize = new Sequelize(RDS_URL, {
 (async () => {
   try {
     await sequelize.sync();
-    console.log('Sequelize models synchronized successful
+    console.log('Sequelize models synchronized successfully.');
+  } catch (error) {
+    console.error('Error synchronizing Sequelize models:', error);
+  }
+})();
+
+export default sequelize;
