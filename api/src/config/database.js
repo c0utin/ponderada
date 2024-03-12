@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 
 // Chave de conexão para o PostgreSQL
-const RDS_URL = "postgres://postgres:12345678@172.31.34.63/";
+const RDS_URL = "postgres://postgres:12345678@3.92.63.143/";
 
 // Criar uma instância do Sequelize para se conectar ao banco de dados PostgreSQL
 const sequelize = new Sequelize(RDS_URL, {
