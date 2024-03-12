@@ -1,31 +1,22 @@
 import Sequelize from 'sequelize';
+import { Book } from '../models/Book.js';
 
-const sequelize = new Sequelize('postgres://postgres:12345678@database-1.c18cukuqyzii.us-east-1.rds.amazonaws.com/', {
-  dialect: 'postgres',
-  host: 'database-1.c18cukuqyzii.us-east-1.rds.amazonaws.com',
-  port: 5432,
-  dialectOptions: {
-    ssl: { // Defina a opção SSL corretamente
-      require: true,
-      rejectUnauthorized: false // ou true, dependendo da configuração do seu banco de dados
-    },
-  },
-  logging: console.log,
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000,
-  },
+const sequelize = new Sequelize({
+    dialect: 'postgres', // Alterado para PostgreSQL
+    host: 'database-1.c18cukuqyzii.us-east-1.rds.amazonaws.com', // Seu endpoint RDS
+    username: 'postgres', // Substitua pelo seu nome de usuário do RDS
+    password: '12345678', // Substitua pela sua senha do RDS
+    database: '', // Substitua pelo nome do seu banco de dados no RDS
+    port: 5432, // Porta padrão do PostgreSQL
+    ssl: { rejectUnauthorized: false },
 });
 
+Book.init(sequelize);
+
 (async () => {
-  try {
-    await sequelize.authenticate();
-    console.log('Conexão estabelecida com sucesso.');
-  } catch (error) {
-    console.error('Erro ao conectar ao banco de dados:', error);
-  }
+    await sequelize.sync({ force: true });
+    await Book.create({ name: "The art of computer programming", release: "1968-01-01", pages: "12" });
+    await Book.create({ name: "The art of computer programming", release: "1968-01-01", pages: "1231312312" });
 })();
 
-export default sequelize;
+export default sequelize
