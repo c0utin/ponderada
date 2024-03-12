@@ -1,30 +1,25 @@
 import Sequelize from 'sequelize';
 import dotenv from 'dotenv';
 
+// Carregar as variáveis de ambiente do arquivo .env
 dotenv.config();
 
-/**
- * Sequelize instance for connecting to a PostgreSQL database using ElephantSQL.
- * It utilizes environment variables for configuration.
- *
- * @type {Sequelize} - Sequelize instance
- */
+// Criar uma instância do Sequelize para se conectar ao banco de dados PostgreSQL
 const sequelize = new Sequelize(process.env.RDS_URL, {
   dialect: 'postgres',
   dialectOptions: {
-    ssl: { rejectUnauthorized: false }, // Enable SSL for RDS
+    ssl: { rejectUnauthorized: false }, // Habilitar SSL para o RDS
   },
 });
 
-/**
- * Synchronize the Sequelize instance with the database.
- * This ensures that the defined models are created in the database.
- *
- * @function
- * @async
- */
+// Sincronizar a instância do Sequelize com o banco de dados para garantir que os modelos estejam criados
 (async () => {
-  await sequelize.sync();
+  try {
+    await sequelize.sync();
+    console.log('Sequelize models synchronized successfully.');
+  } catch (error) {
+    console.error('Error synchronizing Sequelize models:', error);
+  }
 })();
 
 export default sequelize;
