@@ -1,11 +1,10 @@
 import Sequelize from 'sequelize';
-import dotenv from 'dotenv';
 
-// Carregar as variáveis de ambiente do arquivo .env
-dotenv.config();
+// Chave de conexão para o PostgreSQL
+const RDS_URL = "postgres://postgres:12345678@database-1.c18cukuqzii.us-east-1.rds.amazon.com/";
 
 // Criar uma instância do Sequelize para se conectar ao banco de dados PostgreSQL
-const sequelize = new Sequelize(process.env.RDS_URL, {
+const sequelize = new Sequelize(RDS_URL, {
   dialect: 'postgres',
   dialectOptions: {
     ssl: { rejectUnauthorized: false }, // Habilitar SSL para o RDS
@@ -16,10 +15,4 @@ const sequelize = new Sequelize(process.env.RDS_URL, {
 (async () => {
   try {
     await sequelize.sync();
-    console.log('Sequelize models synchronized successfully.');
-  } catch (error) {
-    console.error('Error synchronizing Sequelize models:', error);
-  }
-})();
-
-export default sequelize;
+    console.log('Sequelize models synchronized successful
