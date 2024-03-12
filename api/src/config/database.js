@@ -1,23 +1,27 @@
 import Sequelize from 'sequelize';
 
-// Chave de conexão para o PostgreSQL
-const RDS_URL = "postgres://postgres:12345678@3.92.63.143/";
-
-// Criar uma instância do Sequelize para se conectar ao banco de dados PostgreSQL
-const sequelize = new Sequelize(RDS_URL, {
+const sequelize = new Sequelize('postgres://postgres:12345678@database-1.c18cukuqyzii.us-east-1.rds.amazonaws.com/', {
   dialect: 'postgres',
+  host: 'database-1.c18cukuqyzii.us-east-1.rds.amazonaws.com',
+  port: 5432,
   dialectOptions: {
-    ssl: { rejectUnauthorized: false }, // Habilitar SSL para o RDS
+    ssl: 'Amazon RDS',
+  },
+  logging: console.log, // Ative ou desative os logs conforme necessário
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000,
   },
 });
 
-// Sincronizar a instância do Sequelize com o banco de dados para garantir que os modelos estejam criados
 (async () => {
   try {
-    await sequelize.sync();
-    console.log('Sequelize models synchronized successfully.');
+    await sequelize.authenticate();
+    console.log('Conexão estabelecida com sucesso.');
   } catch (error) {
-    console.error('Error synchronizing Sequelize models:', error);
+    console.error('Erro ao conectar ao banco de dados:', error);
   }
 })();
 
